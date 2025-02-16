@@ -7,7 +7,7 @@ register_matplotlib_converters()
 # Import data (Make sure to parse dates. Consider setting index column to 'date'.)
 df = pd.read_csv('fcc-forum-pageviews.csv', parse_dates=['date'], index_col='date')
 
-# Clean data
+# Clean data (filter out days when the page views were in the top 2.5% of the dataset or bottom 2.5% of the dataset)
 df = df[(df['value'] >= df['value'].quantile(0.025)) & (df['value'] <= df['value'].quantile(0.975))]
 
 
