@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from pandas.plotting import register_matplotlib_converters
+
 register_matplotlib_converters()
 
 # Import data (Make sure to parse dates. Consider setting index column to 'date'.)
@@ -9,7 +10,6 @@ df = pd.read_csv('fcc-forum-pageviews.csv', parse_dates=['date'], index_col='dat
 
 # Clean data (filter out days when the page views were in the top 2.5% of the dataset or bottom 2.5% of the dataset)
 df = df[(df['value'] >= df['value'].quantile(0.025)) & (df['value'] <= df['value'].quantile(0.975))]
-
 
 def draw_line_plot():
     # Draw line plot
@@ -25,7 +25,6 @@ def draw_line_plot():
     fig.savefig('line_plot.png')
     return fig
 
-
 def draw_bar_plot():
     # Copy and modify data for monthly bar plot
     df_bar = df.copy()
@@ -36,7 +35,7 @@ def draw_bar_plot():
     df_grouped = df_bar.groupby(['year', 'month'])['value'].mean().unstack()
 
     # Create figure
-    fig, ax = plt.subplots(figsize=(14, 6))  # Ensure `fig` is a Matplotlib Figure
+    fig, ax = plt.subplots(figsize=(14, 6))
     df_grouped.plot(kind='bar', ax=ax)
 
     ax.set_xlabel('Years')
@@ -44,9 +43,8 @@ def draw_bar_plot():
     ax.legend(title='Months', labels=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
 
     # Save image and return fig
-    fig.savefig('bar_plot.png')  # Ensure `fig` is a Matplotlib Figure
-    return fig  # Returning the
-
+    fig.savefig('bar_plot.png')
+    return fig
 
 def draw_box_plot():
     # Prepare data for box plots (this part is done!)
@@ -65,7 +63,6 @@ def draw_box_plot():
     ax[1].set_title('Month-wise Box Plot (Seasonality)')
     ax[1].set_xlabel('Month')
     ax[1].set_ylabel('Page Views')
-
 
     # Save image and return fig (don't change this part)
     fig.savefig('box_plot.png')
