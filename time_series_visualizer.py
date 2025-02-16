@@ -29,18 +29,23 @@ def draw_line_plot():
 def draw_bar_plot():
     # Copy and modify data for monthly bar plot
     df_bar = df.copy()
+    df_bar['year'] = df_bar.index.year
+    df_bar['month'] = df_bar.index.month
 
-    # Draw bar plot
-    fig = df_bar.groupby([df_bar.index.year, df_bar.index.month]).mean()
-    plt.figure(figsize=(14, 6))
-    fig.unstack().plot(kind='bar')
-    plt.xlabel('Years')
-    plt.ylabel('Average Page Views')
-    plt.legend(title='Months', labels=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
+    # Group by year and month, then take the mean
+    df_grouped = df_bar.groupby(['year', 'month'])['value'].mean().unstack()
 
-    # Save image and return fig (don't change this part)
-    fig.savefig('bar_plot.png')
-    return fig
+    # Create figure
+    fig, ax = plt.subplots(figsize=(14, 6))  # Ensure `fig` is a Matplotlib Figure
+    df_grouped.plot(kind='bar', ax=ax)
+
+    ax.set_xlabel('Years')
+    ax.set_ylabel('Average Page Views')
+    ax.legend(title='Months', labels=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
+
+    # Save image and return fig
+    fig.savefig('bar_plot.png')  # Ensure `fig` is a Matplotlib Figure
+    return fig  # Returning the
 
 
 def draw_box_plot():
