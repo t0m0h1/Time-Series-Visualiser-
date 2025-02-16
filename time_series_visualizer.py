@@ -25,11 +25,14 @@ def draw_line_plot():
     fig.savefig('line_plot.png')
     return fig
 
+
 def draw_bar_plot():
     # Copy and modify data for monthly bar plot
-    df_bar = None
+    df_bar = df.copy()
 
     # Draw bar plot
+    data = df_bar.groupby([df_bar.index.year, df_bar.index.month]).mean()
+    
 
 
 
@@ -38,6 +41,7 @@ def draw_bar_plot():
     # Save image and return fig (don't change this part)
     fig.savefig('bar_plot.png')
     return fig
+
 
 def draw_box_plot():
     # Prepare data for box plots (this part is done!)
